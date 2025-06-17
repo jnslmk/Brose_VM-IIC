@@ -77,11 +77,11 @@ void loop() {
     flipdot.setFont(&FreeMonoBold12pt7b);
     flipdot.setTextColor(1);
     flipdot.fillScreen(0);
-    flipdot.drawCenteredText(14, "Maker");
+    flipdot.drawCenteredText(0, 14, "Maker");
     flipdot.update();
     delay(1000);
     flipdot.fillScreen(0);
-    flipdot.drawCenteredText(14, "Space");
+    flipdot.drawCenteredText(0, 14, "Space");
     flipdot.update();
     delay(1000);
 
