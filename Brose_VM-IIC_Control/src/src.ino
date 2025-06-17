@@ -55,8 +55,8 @@ void setup() {
     flipdot.clearDisplay();
     flipdot.writeDot(0, 0, 1); // indicate done
 
-    // flipdot.setFont(&FreeSans12pt7b);
-    // flipdot.startScrollText(0, 16, "Maker Space");
+    flipdot.setFont(&FreeSans12pt7b);
+    flipdot.startScrollText(0, 16, "Casino");
 
     flipdot.print("Connecting to WiFi...");
     flipdot.update();
@@ -72,18 +72,18 @@ void setup() {
 }
 
 void loop() {
-    // flipdot.scrollTextTick();
+    flipdot.scrollTextTick();
 
-    flipdot.setFont(&FreeMonoBold12pt7b);
-    flipdot.setTextColor(1);
-    flipdot.fillScreen(0);
-    flipdot.drawCenteredText(0, 14, "Maker");
-    flipdot.update();
-    delay(1000);
-    flipdot.fillScreen(0);
-    flipdot.drawCenteredText(0, 14, "Space");
-    flipdot.update();
-    delay(1000);
+    // flipdot.setFont(&FreeMonoBold12pt7b);
+    // flipdot.setTextColor(1);
+    // flipdot.fillScreen(0);
+    // flipdot.drawCenteredText(0, 14, "Casino");
+    // flipdot.update();
+    // delay(1000);
+    // flipdot.fillScreen(0);
+    // flipdot.drawCenteredText(0, 14, "Space");
+    // flipdot.update();
+    delay(500);
 
     loopOTA();
     wifiMulti.run();
