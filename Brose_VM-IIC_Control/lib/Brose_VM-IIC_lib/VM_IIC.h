@@ -11,10 +11,10 @@ class VM_IIC : public Adafruit_GFX {
         // allocates w * h / 4 bytes, make sure you have enough space in RAM
         // needs a function pointer to a I²C byte write function write(address, data)
         VM_IIC(int16_t w, int16_t h, uint16_t flipTime, void (*i2cWriteFunc)(uint8_t, uint8_t));
-        
+
         // set mapping of 28px wide modules
         void setModuleMapping(uint8_t m1 = 0, uint8_t m2 = 0, uint8_t m3 = 0, uint8_t m4 = 0, uint8_t m5 = 0, uint8_t m6 = 0, uint8_t m7 = 0, uint8_t m8 = 0);
-        
+
         void setDebugSerial(Stream* serialObj);
         void drawPixel(int16_t x, int16_t y, uint16_t color);
 
