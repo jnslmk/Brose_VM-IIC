@@ -12,16 +12,16 @@
 #include <Fonts/FreeSans12pt7b.h>
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
+#include "fonts/Orbitron_Medium_16.h"
 
 #include "config.h"
 #include <WiFiMulti.h>
 #include "ota.h"
 
 
-#define DISPLAY_WIDTH   112
-#define DISPLAY_HEIGHT  19
-#define FLIP_TIME       550
-
+#define DISPLAY_WIDTH   84
+#define DISPLAY_HEIGHT  16
+#define FLIP_TIME       100  // [ms]
 
 // doesn't work, because it waits for ACK that never comes
 void i2cWriteByteHardware(uint8_t addr, uint8_t data) {
@@ -50,13 +50,13 @@ void setup() {
     Serial.begin(115200);
 
     flipdot.setModuleMapping(3, 2, 1);
-    
+
     // blank display
     flipdot.clearDisplay();
     flipdot.writeDot(0, 0, 1); // indicate done
 
-    flipdot.setFont(&FreeSans12pt7b);
-    flipdot.startScrollText(0, 16, "Casino");
+    flipdot.setFont(&Orbitron_Medium_16);
+    flipdot.startScrollText(0, 16, "  Casino  ");
 
     flipdot.print("Connecting to WiFi...");
     flipdot.update();
@@ -72,7 +72,12 @@ void setup() {
 }
 
 void loop() {
-    flipdot.scrollTextTick();
+    if (flipdot.scrollTextRunning()) {
+        flipdot.scrollTextTick();
+    } else {
+        flipdot.startScrollText(83, 16, " Casino ");
+    }
+    delay(10);
 
     // flipdot.setFont(&FreeMonoBold12pt7b);
     // flipdot.setTextColor(1);
@@ -83,7 +88,11 @@ void loop() {
     // flipdot.fillScreen(0);
     // flipdot.drawCenteredText(0, 14, "Space");
     // flipdot.update();
-    delay(500);
+
+    // delay(500);
+    // flipdot.clearDisplay();
+    // delay(500);
+    // flipdot.clearDisplay(true);
 
     loopOTA();
     wifiMulti.run();
