@@ -32,7 +32,7 @@ class VM_IIC : public Adafruit_GFX {
 
         uint16_t getTextWidth(const char* text);
         void drawCenteredText(int16_t xOffset, int16_t y, const char* text);
-        void clearDisplay();
+        void clearDisplay(bool state = false);
 
         void startScrollText(int16_t x, int16_t y, const char* text);
         void scrollTextTick(bool doUpdate = true);

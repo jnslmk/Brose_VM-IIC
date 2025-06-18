@@ -213,10 +213,10 @@ void VM_IIC::drawCenteredText(int16_t xOffset, int16_t y, const char* text) {
 
 
 // clears display without using framebuffers
-void VM_IIC::clearDisplay() {
+void VM_IIC::clearDisplay(bool state) {
     for(uint8_t y = 0; y < HEIGHT; y++) {
         for(uint8_t x = 0; x < WIDTH; x++) {
-            writeDot(x, y, 0);
+            writeDot(x, y, state);
         }
     }
 }
