@@ -130,13 +130,12 @@ void VM_IIC::writeDot(uint8_t x, uint8_t y, bool state) {
     i2cWriteByte(0x44, i2cBuf[2]);
 }
 
-
-void VM_IIC::update() {
+void VM_IIC::update(bool updateAllDots) {
     prevModuleState = 0;
     prevColumnState = 0xFF;
     for(uint8_t x = 0; x < WIDTH; x++) {
         for(uint8_t y = 0; y < HEIGHT; y++) {
-            if(dotChanged(x, y)) {
+            if(updateAllDots || dotChanged(x, y)) {
                 writeDot(x, y, getDot(x, y));
             }
         }

@@ -21,7 +21,7 @@ class VM_IIC : public Adafruit_GFX {
         uint8_t reverse(uint8_t b);
         void generateDataPacket(uint8_t moduleSelect, uint8_t colAddr, bool colData, uint8_t rowAddr, bool rowLData, bool rowLEnable, bool rowHData, bool rowHEnable);
         void writeDot(uint8_t x, uint8_t y, bool state);
-        void update();
+        void update(bool updateAllDots = false);
         bool updateProgressive(); // returns true when cycle finished
 
         void setDot(uint8_t x, uint8_t y, bool state);
