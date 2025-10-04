@@ -128,42 +128,80 @@ void ledEffect() {
 
     FastLED.show();
 }
-
 unsigned long previousMillis = 0;
-const long interval = 5000;
+const long interval = 10000;
 bool showKleider = true;
+bool fadeInProgress = false;
+unsigned long fadeStartTime = 0;
+const long fadeTransitionTime = 1000; // 1 second fade
+const long fadeHoldTime = 200; // Hold all dots on for 200ms
+
+void fadeToText(const char* text) {
+    unsigned long currentTime = millis();
+    unsigned long elapsed = currentTime - fadeStartTime;
+    
+    if (elapsed < fadeHoldTime) {
+        // Show all dots on
+        flipdot.fillScreen(1);
+    } else if (elapsed < fadeTransitionTime) {
+        // Create animated transition effect
+        float progress = (float)(elapsed - fadeHoldTime) / (fadeTransitionTime - fadeHoldTime);
+        
+        flipdot.fillScreen(0);
+        
+        // Method 1: Scan line effect
+        int scanLine = (int)(progress * DISPLAY_HEIGHT);
+        for (int y = 0; y <= scanLine && y < DISPLAY_HEIGHT; y++) {
+            flipdot.drawCenteredText(0, 14, text);
+            // Mask out lines below the scan line
+            for (int x = 0; x < DISPLAY_WIDTH; x++) {
+                if (y < scanLine) {
+                    // Keep the text pixels above scan line
+                    continue;
+                } else {
+                    // Show scan line
+                    flipdot.writeDot(x, y, 1);
+                }
+            }
+        }
+    } else {
+        // Show final text
+        flipdot.fillScreen(0);
+        flipdot.drawCenteredText(0, 14, text);
+        fadeInProgress = false;
+    }
+    
+    flipdot.update();
+}
 
 void loop() {
-/*      if (flipdot.scrollTextRunning()) {
-        flipdot.scrollTextTick();
-    } else {
-        flipdot.startScrollText(28, 14, "Universal University - Understanding Sex Work Through an Intersectional Lens");
-    }
-    delay(100); */
-
-    //ledEffect();
-
-    //flipdot.setFont(&FreeMonoBold12pt7b);
-
-  unsigned long currentMillis = millis();
-
+    unsigned long currentMillis = millis();
 
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
-        showKleider = !showKleider; // Toggle the text to display
+        showKleider = !showKleider;
+        fadeInProgress = true;
+        fadeStartTime = currentMillis;
     }
 
     flipdot.setFont(&Orbitron_Medium_16);
     flipdot.setTextColor(1);
-    flipdot.fillScreen(0);
-    if (showKleider) {
-        flipdot.drawCenteredText(0, 14, "Kleider");
+    
+    if (fadeInProgress) {
+        const char* textToShow = showKleider ? "Kleider" : "tausch";
+        fadeToText(textToShow);
     } else {
-        flipdot.drawCenteredText(0, 14, "tausch");
+        // Normal display when not fading
+        flipdot.fillScreen(0);
+        if (showKleider) {
+            flipdot.drawCenteredText(0, 14, "Kleider");
+        } else {
+            flipdot.drawCenteredText(0, 14, "tausch");
+        }
+        flipdot.update();
     }
-    flipdot.update();
 
-    delay(500);
+    delay(50); // Reduced delay for smoother animation
     // delay(500);
     // flipdot.clearDisplay();
     // delay(500);
